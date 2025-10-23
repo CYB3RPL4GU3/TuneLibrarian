@@ -43,7 +43,7 @@ export async function fetchTunes(stream, filter) {
     messages[0] = `${jsonTunes.length} tune(s) found for filter: ${filter}.\n`;
     for (const tune of jsonTunes) {
       messages[i] = messages[i] || '';
-      var tuneContent = `${tune.year} ${tune.make} ${tune.model} (${tune.class} ${tune.pi}, ${tune.drivetrain}, ${tune.bestfor.map(item => capitalize(item)).join(' / ') }${tune.antilag === 'Yes' ? ', with anti-lag' : ''}${tune.comments !== '' ? ', ' + tune.comments : ''}): ${tune.sharecode}\n`;
+      var tuneContent = `- ${tune.year} ${tune.make} ${tune.model} (${tune.class} ${tune.pi}, ${tune.drivetrain}, ${tune.bestfor.map(item => capitalize(item)).join(' / ') }${tune.antilag === 'Yes' ? ', with anti-lag' : ''}${tune.comments !== '' ? ', ' + tune.comments : ''}): ${tune.sharecode}\n`;
       charCount += tuneContent.length;
       if (charCount >= 1900) { // Discord message limit is 2000 characters
         i++;
