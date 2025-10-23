@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export async function TuneWebHookRequest(options) {
   // append endpoint to root API URL
-  const url = 'https://cdlozano.mooo.com/webhook/tunes';
+  const url = process.env.TUNE_WEBHOOK_URL;
   // Use fetch to make requests
   const res = await fetch(url, {
     headers: {

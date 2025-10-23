@@ -58,7 +58,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       try {
         //Get tunes and concatenate them into readable format
         const filter = options[0].value;
-        const webHookResponse = await TuneWebHookRequest({ method: 'POST', body: filter });
+        const webHookResponse = await TuneWebHookRequest({ method: process.env.TUNE_WEBHOOK_METHOD, body: filter });
         const tuneMessages = await fetchTunes(webHookResponse.body, filter);
         
         await DiscordRequest(editEndpoint, {
