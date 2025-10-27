@@ -36,7 +36,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
    */
   if (type === InteractionType.APPLICATION_COMMAND) {
     const { name, options } = data;
-    const endpoint = `interactions/${id}/${req.body.token}/callback?with_response=true`;
+    const endpoint = `interactions/${id}/${req.body.token}/callback`;
     const editEndpoint = `webhooks/${process.env.APP_ID}/${req.body.token}/messages/@original?with_components=true`;
     const newMsgEndpoint = `webhooks/${process.env.APP_ID}/${req.body.token}?with_components=true`;
 
@@ -46,7 +46,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         // Defer the response to give us more time to fetch tunes
         await res.status(202).send();
         // Send a message into the channel where command was triggered from
-        const callback = await DiscordRequest(endpoint, {
+        await DiscordRequest(endpoint, {
           method: 'POST', body: {
             type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
