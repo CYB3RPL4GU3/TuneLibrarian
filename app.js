@@ -42,20 +42,20 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
 
     // "tune" command
     if (name === 'tune') {
-      // Send a message into the channel where command was triggered from
-      await res.status(202).send();
-
-      const callback = await DiscordRequest(endpoint, {
-        method: 'POST', body: {
-          type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-          data: {
-            flags: InteractionResponseFlags.IS_COMPONENTS_V2,
-            content: 'Fetching tunes...',
-          },
-        }
-      });
-
       try {
+        // Defer the response to give us more time to fetch tunes
+        await res.status(202).send();
+        // Send a message into the channel where command was triggered from
+        const callback = await DiscordRequest(endpoint, {
+          method: 'POST', body: {
+            type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              flags: InteractionResponseFlags.IS_COMPONENTS_V2,
+              content: 'Fetching tunes...',
+            },
+          }
+        });
+        
         //Get tunes and concatenate them into readable format
         const filter = options[0].value;
         const webHookResponse = await TuneWebHookRequest({ method: process.env.TUNE_WEBHOOK_METHOD, body: filter });
